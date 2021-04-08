@@ -3,7 +3,7 @@ const initialstate = {
         list: [],
     },
     users: {
-        email: "",
+        cart: [],
         isSignedIn: false,
         role: "",
         uid: "",
