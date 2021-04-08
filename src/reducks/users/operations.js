@@ -123,7 +123,7 @@ export const signUp = (username, email, password, confirmpassword) => {
 
 export const signOut = () => {
     return async (dispatch) => {
-        auth.signOut.then(() => {
+        auth.signOut().then(() => {
             dispatch(signOutAction());
             dispatch(push("/signin"));
         });
