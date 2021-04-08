@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 });
 
 const SelectBox = (props) => {
-    const classes = useStyles;
+    const classes = useStyles();
     return (
         <FormControl className={classes.formControl}>
             <InputLabel>{props.label}</InputLabel>

@@ -12,13 +12,13 @@ export const listenAuthState = () => {
                     .doc(uid)
                     .get()
                     .then((snapshot) => {
-                        const data = snapshot.data();
+                        // const data = snapshot.data();
                         dispatch(
                             signInAction({
                                 isSignedIn: true,
-                                role: data.role,
+                                // role: data.role,
                                 uid: uid,
-                                username: data.username,
+                                // username: data.username,
                             })
                         );
                     });
@@ -64,14 +64,14 @@ export const signIn = (email, password) => {
                     .doc(uid)
                     .get()
                     .then((snapshot) => {
-                        const data = snapshot.data();
+                        // const data = snapshot.data();
 
                         dispatch(
                             signInAction({
                                 isSignedIn: true,
-                                role: data.role,
+                                // role: data.role,
                                 uid: uid,
-                                username: data.username,
+                                // username: data.username,
                             })
                         );
 
@@ -96,6 +96,7 @@ export const signUp = (username, email, password, confirmpassword) => {
 
         return auth.createUserWithEmailAndPassword(email, password).then((result) => {
             const user = result.user;
+
             if (user) {
                 const uid = user.id;
                 const timestamp = FirebaseTimestamp.now();
@@ -104,7 +105,7 @@ export const signUp = (username, email, password, confirmpassword) => {
                     created_at: timestamp,
                     email: email,
                     role: "customer",
-                    uid: uid,
+                    uid: "123",
                     updated_at: timestamp,
                     username: username,
                 };
