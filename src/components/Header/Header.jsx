@@ -6,7 +6,7 @@ import logo from "../../assets/img/icons/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getIsSignedIn } from "../../reducks/users/selectors";
 import { push } from "connected-react-router";
-import { HeaderMenus } from "./HeaderMenus";
+import { HeaderMenus } from "../Header";
 
 const useStyles = makeStyles({
     root: {
