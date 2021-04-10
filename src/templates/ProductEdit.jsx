@@ -4,7 +4,7 @@ import ImageArea from "../components/Products/ImageArea";
 import { TextInput, SelectBox, PrimaryButton } from "../components/UIkit";
 import { db } from "../firebase";
 import { saveProduct } from "../reducks/products/operations";
-import SetSizeArea from "../components/Products/SetSizeArea";
+import SetSizesArea from "../components/Products/SetSizesArea";
 
 const ProductEdit = () => {
     const dispatch = useDispatch();
@@ -129,7 +129,7 @@ const ProductEdit = () => {
                     onChange={inputPrice}
                 />
                 <div className="module-spacer--small" />
-                <SetSizeArea sizes={sizes} setSizes={setSizes} />
+                <SetSizesArea sizes={sizes} setSizes={setSizes} />
                 <div className="module-spacer--small" />
                 <div className="center">
                     <PrimaryButton

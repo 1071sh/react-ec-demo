@@ -53,16 +53,17 @@ const OrderConfirm = () => {
                 <div className={classes.detailBox}>
                     <List>
                         {productsInCart.length > 0 &&
-                            productsInCart.map((product) => <CartListItem key={product.cartId} product={product} />)}
+                            productsInCart.map((product) => <CartListItem product={product} key={product.cartId} />)}
                     </List>
                 </div>
                 <div className={classes.orderBox}>
                     <TextDetail label={"商品合計"} value={"¥" + subtotal.toLocaleString()} />
-                    <TextDetail label={"消費税"} value={"¥" + tax} />
                     <TextDetail label={"送料"} value={"¥" + shippingFee.toLocaleString()} />
+                    <TextDetail label={"消費税"} value={"¥" + tax.toLocaleString()} />
                     <Divider />
-                    <TextDetail label={"合計（税込）"} value={"¥" + total.toLocaleString()} />
-                    <PrimaryButton label={"注文する"} onClick={order} />
+                    <div className="module-spacer--extra-extra-small" />
+                    <TextDetail label={"合計(税込)"} value={"¥" + total.toLocaleString()} />
+                    <PrimaryButton label={"注文を確定する"} onClick={order} />
                 </div>
             </div>
         </section>

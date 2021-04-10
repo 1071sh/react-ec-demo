@@ -1,9 +1,9 @@
-import { List, makeStyles } from "@material-ui/core";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getProductsInCart } from "../reducks/users/selectors";
+import { List, makeStyles } from "@material-ui/core";
 import { CartListItem } from "../components/Products";
 import { PrimaryButton, GreyButton } from "../components/UIkit";
-import { getProductsInCart } from "../reducks/users/selectors";
 import { push } from "connected-react-router";
 
 const useStyles = makeStyles({
@@ -20,7 +20,7 @@ const CartList = () => {
     const selector = useSelector((state) => state);
     const productsInCart = getProductsInCart(selector);
 
-    const gotToOrder = useCallback(() => {
+    const goToOrder = useCallback(() => {
         dispatch(push("/order/confirm"));
     }, []);
 
@@ -30,14 +30,14 @@ const CartList = () => {
 
     return (
         <section className="c-section-wrapin">
-            <h2 className="u-text-headline">ショッピングカート</h2>
+            <h2 className="u-text__headline">ショッピングカート</h2>
             <List className={classes.root}>
-                {productsInCart.length &&
-                    productsInCart.map((product) => <CartListItem key={product.cartId} product={product} />)}
+                {productsInCart.length > 0 &&
+                    productsInCart.map((product) => <CartListItem product={product} key={product.cartId} />)}
             </List>
             <div className="module-spacer--medium" />
             <div className="p-grid__column">
-                <PrimaryButton label={"レジへ進む"} onClick={gotToOrder} />
+                <PrimaryButton label={"レジへ進む"} onClick={goToOrder} />
                 <div className="module-spacer--extra-extra-small" />
                 <GreyButton label={"ショッピングを続ける"} onClick={backToHome} />
             </div>

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { ProductCard } from "../components/Products";
-import { fetchProducts } from "../reducks/products/operations";
+import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../reducks/products/selectors";
+import { fetchProducts } from "../reducks/products/operations";
 
 const ProductList = () => {
     const dispatch = useDispatch();
@@ -25,9 +25,9 @@ const ProductList = () => {
                         <ProductCard
                             key={product.id}
                             id={product.id}
-                            name={product.name}
                             images={product.images}
                             price={product.price}
+                            name={product.name}
                         />
                     ))}
             </div>
