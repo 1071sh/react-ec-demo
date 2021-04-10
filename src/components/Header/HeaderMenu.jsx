@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
+import { Badge } from "@material-ui/core";
 import { fetchProductsInCart } from "../../reducks/users/operations";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsInCart, getUserId } from "../../reducks/users/selectors";
@@ -56,7 +56,13 @@ const HeaderMenu = (props) => {
             <IconButton>
                 <FavoriteBorderIcon />
             </IconButton>
-            <IconButton onClick={(e) => props.handleDrawerToggle(e, true)}>
+            <IconButton
+                aria-label="Menu Items"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={(e) => props.handleDrawerToggle(e, true)}
+                color="inherit"
+            >
                 <MenuIcon />
             </IconButton>
         </>

@@ -37,18 +37,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ClosableDrawer = (props) => {
-    const classes = useStyles();
     const { container } = props;
+    const classes = useStyles();
     const dispatch = useDispatch();
-
     const [keyword, setKeyword] = useState("");
-
-    const inputKeyword = useCallback(
-        (event) => {
-            setKeyword(event.target.value);
-        },
-        [setKeyword]
-    );
 
     const selectMenu = (event, path) => {
         dispatch(push(path));
@@ -86,28 +78,34 @@ const ClosableDrawer = (props) => {
             });
     }, []);
 
+    const inputKeyword = useCallback(
+        (event) => {
+            setKeyword(event.target.value);
+        },
+        [setKeyword]
+    );
     return (
         <nav className={classes.drawer}>
             <Drawer
                 container={container}
                 variant="temporary"
-                anchor="right"
+                anchor={"right"}
                 open={props.open}
-                onClose={(e) => props.onClose(e)}
+                onClose={(e) => props.onClose(e, false)}
                 classes={{ paper: classes.drawerPaper }}
                 ModalProps={{ keepMounted: true }}
             >
-                <div onClose={(e) => props.onClose(e)} onKeyDown={(e) => props.onClose(e)}>
+                <div onClose={(e) => props.onClose(e, false)} onKeyDown={(e) => props.onClose(e, false)}>
                     <div className={classes.searchField}>
                         <TextInput
                             fullWidth={false}
                             label={"キーワードを入力"}
                             multiline={false}
+                            onChange={inputKeyword}
                             required={false}
                             rows={1}
                             value={keyword}
                             type={"text"}
-                            onChange={inputKeyword}
                         />
                         <IconButton>
                             <SearchIcon />
