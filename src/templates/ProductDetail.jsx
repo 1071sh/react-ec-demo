@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
+import ImageSwiper from "../components/Products/ImageSwiper";
 import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { db, FirebaseTimestamp } from "../firebase";
 import HTMLReactParser from "html-react-parser";
-import { ImageSwiper, SizeTable } from "../components/Products";
+import { SizeTable } from "../components/Products";
 import { addProductToCart } from "../reducks/users/operations";
 
 const useStyles = makeStyles((theme) => ({
@@ -93,7 +94,7 @@ const ProductDetail = () => {
                     </div>
                     <div className={classes.detail}>
                         <h2 className="u-text__headline">{product.name}</h2>
-                        <p className={classes.price}>{product.price.toLocaleString()}</p>
+                        <p className={classes.price}>¥{product.price.toLocaleString()}</p>
                         <div className="module-spacer--small" />
                         <SizeTable addProduct={addProduct} sizes={product.sizes} />
                         <div className="module-spacer--small" />

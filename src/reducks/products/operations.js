@@ -34,6 +34,78 @@ export const fetchProducts = () => {
     };
 };
 
+export const orderProduct = (productInCart, amount) => {
+    return async (dispatch, getState) => {
+        const uid = getState().users.id;
+        const userRef = db.collection("users").doc(uid);
+        const timestamp = FirebaseTimestamp.now();
+
+        let products = [],
+            soldOutProducts = [];
+
+        const batch = db.batch();
+
+        for (const product of productInCart) {
+            const snapshot = await productsRef.doc(product.productId).get();
+            const sizes = snapshot.data().sizes;
+
+            const updatedSizes = sizes.map((size) => {
+                if (size.size === product.size) {
+                    if (size.quantity === 0) {
+                        soldOutProducts.push(product.name);
+                        return size;
+                    }
+                    return {
+                        size: size,
+                        quantity: size.quantity - 1,
+                    };
+                } else {
+                    return size;
+                }
+            });
+
+            products.push({
+                id: product.productId,
+                images: product.images,
+                name: product.name,
+                price: product.size,
+            });
+
+            batch.update(productsRef.doc(product.productId), { sizes: updatedSizes });
+        }
+
+        if (soldOutProducts.length > 0) {
+            const errorMessage = soldOutProducts.length > 1 ? soldOutProducts.join("と") : soldOutProducts[0];
+            alert("大変申し訳ありません." + errorMessage + "が在庫切れとなったため、注文処理を中断しました。");
+            return false;
+        } else {
+            batch
+                .commit()
+                .then(() => {
+                    const orderRef = userRef.collection("orders").doc();
+                    const date = timestamp.toDate();
+                    const shippingDate = FirebaseTimestamp.fromDate(new Date(date.setDate(date.getDate() + 3)));
+
+                    const history = {
+                        amount: amount,
+                        created_at: timestamp,
+                        id: orderRef.id,
+                        products: products,
+                        shipping_date: shippingDate,
+                        updated_at: timestamp,
+                    };
+
+                    orderRef.set(history);
+                    dispatch(push("order/complete"));
+                })
+                .catch(() => {
+                    alert("注文処理に失敗しました。");
+                    return false;
+                });
+        }
+    };
+};
+
 export const saveProduct = (id, name, description, category, gender, price, images, sizes) => {
     return async (dispatch) => {
         const timestamp = FirebaseTimestamp.now();

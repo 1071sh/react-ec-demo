@@ -6,6 +6,7 @@ import { FavoriteBorderIcon } from "@material-ui/icons/FavoriteBorder";
 
 const useStyles = makeStyles({
     iconCell: {
+        padding: 0,
         height: 48,
         width: 48,
     },
@@ -28,7 +29,10 @@ const SizeTable = (props) => {
                                 <TableCell>残り{size.quantity}点</TableCell>
                                 <TableCell className={classes.iconCell}>
                                     {size.quantity > 0 ? (
-                                        <IconButton onClick={() => props.addProduct(size.size)}>
+                                        <IconButton
+                                            className={classes.iconCell}
+                                            onClick={() => props.addProduct(size.size)}
+                                        >
                                             <ShoppingCartIcon />
                                         </IconButton>
                                     ) : (
@@ -36,7 +40,7 @@ const SizeTable = (props) => {
                                     )}
                                 </TableCell>
                                 <TableCell className={classes.iconCell}>
-                                    <IconButton>
+                                    <IconButton className={classes.iconCell}>
                                         <FavoriteBorderIcon />
                                     </IconButton>
                                 </TableCell>
