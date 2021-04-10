@@ -1,9 +1,11 @@
-const initialstate = {
+export const initialState = {
     products: {
         list: [],
     },
     users: {
         cart: [],
+        customer_id: "",
+        email: "",
         isSignedIn: false,
         orders: [],
         role: "",
@@ -11,5 +13,3 @@ const initialstate = {
         username: "",
     },
 };
-
-export default initialstate;
