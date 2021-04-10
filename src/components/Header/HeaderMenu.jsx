@@ -1,25 +1,25 @@
 import React, { useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
+import { fetchProductsInCart } from "../../reducks/users/operations";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsInCart, getUserId } from "../../reducks/users/selectors";
+import { push } from "connected-react-router";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { db } from "../../firebase/index";
 import MenuIcon from "@material-ui/icons/Menu";
-import { getProductsInCart, getUserId } from "../../reducks/users/selectors";
-import { useDispatch, useSelector } from "react-redux";
-import { db } from "../../firebase";
-import { fetchProductsInCart } from "../../reducks/users/operations";
-import { push } from "connected-react-router";
 
-const HeaderMenus = (props) => {
+const HeaderMenu = (props) => {
     const dispatch = useDispatch();
     const selector = useSelector((state) => state);
-    const uid = getUserId(selector);
+    const userId = getUserId(selector);
     let productsInCart = getProductsInCart(selector);
 
     useEffect(() => {
         const unsubscribe = db
             .collection("users")
-            .doc(uid)
+            .doc(userId)
             .collection("cart")
             .onSnapshot((snapshots) => {
                 snapshots.docChanges().forEach((change) => {
@@ -56,11 +56,11 @@ const HeaderMenus = (props) => {
             <IconButton>
                 <FavoriteBorderIcon />
             </IconButton>
-            <IconButton onClick={(event) => props.handleDrawerToggle(event)}>
+            <IconButton onClick={(e) => props.handleDrawerToggle(e, true)}>
                 <MenuIcon />
             </IconButton>
         </>
     );
 };
 
-export default HeaderMenus;
+export default HeaderMenu;
