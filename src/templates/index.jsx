@@ -6,3 +6,4 @@ export { default as SignUp } from "./SignUp";
 export { default as Reset } from "./Reset";
 export { default as CartList } from "./CartList";
 export { default as OrderConfirm } from "./OrderConfirm";
+export { default as OrderHistory } from "./OrderHistory";
