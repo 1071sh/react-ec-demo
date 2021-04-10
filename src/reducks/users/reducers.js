@@ -1,5 +1,5 @@
 import * as Actions from "./actions";
-import initialState from "../store//initialState";
+import { initialState } from "../store/initialState";
 
 export const UsersReducer = (state = initialState.users, action) => {
     switch (action.type) {
@@ -20,7 +20,7 @@ export const UsersReducer = (state = initialState.users, action) => {
             };
         case Actions.SIGN_OUT:
             return {
-                ...action.payload,
+                ...initialState.users,
             };
         default:
             return state;
