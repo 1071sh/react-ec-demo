@@ -1,8 +1,13 @@
 import React from "react";
-import { IconButton, Table, TableBody, TableCell, TableContainer, TableRow } from "@material-ui/core";
+import Table from "@material-ui/core/Table";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
+import IconButton from "@material-ui/core/IconButton";
+import TableContainer from "@material-ui/core/TableContainer";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { makeStyles } from "@material-ui/styles";
-import { ShoppingCartIcon } from "@material-ui/icons/ShoppingCart";
-import { FavoriteBorderIcon } from "@material-ui/icons/FavoriteBorder";
 
 const useStyles = makeStyles({
     iconCell: {
@@ -14,24 +19,23 @@ const useStyles = makeStyles({
 
 const SizeTable = (props) => {
     const classes = useStyles();
-    const sizes = props.sizes;
 
     return (
         <TableContainer>
-            <Table>
+            <Table aria-label="simple table">
                 <TableBody>
-                    {sizes.length > 0 &&
-                        sizes.map((size) => (
-                            <TableRow key={size.size}>
+                    {props.sizes.length > 0 &&
+                        props.sizes.map((item, index) => (
+                            <TableRow key={item.size}>
                                 <TableCell component="th" scope="row">
-                                    {size.size}
+                                    {item.size}
                                 </TableCell>
-                                <TableCell>残り{size.quantity}点</TableCell>
+                                <TableCell>残り{item.quantity}点</TableCell>
                                 <TableCell className={classes.iconCell}>
-                                    {size.quantity > 0 ? (
+                                    {item.quantity > 0 ? (
                                         <IconButton
                                             className={classes.iconCell}
-                                            onClick={() => props.addProduct(size.size)}
+                                            onClick={() => props.addProduct(item.size)}
                                         >
                                             <ShoppingCartIcon />
                                         </IconButton>

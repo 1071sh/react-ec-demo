@@ -1,13 +1,14 @@
 import React, { useCallback } from "react";
+import { storage } from "../../firebase/index";
+import { makeStyles } from "@material-ui/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import { makeStyles } from "@material-ui/styles";
-import ImagePreview from "./ImagePreview";
 // import { useDispatch } from "react-redux";
-import { storage } from "../../firebase";
+import { ImagePreview } from "./index";
 
 const useStyles = makeStyles({
     icon: {
+        marginRight: 8,
         height: 48,
         width: 48,
     },
@@ -16,6 +17,7 @@ const useStyles = makeStyles({
 const ImageArea = (props) => {
     const classes = useStyles();
     // const dispatch = useDispatch();
+    const images = props.images;
 
     const deleteImage = useCallback(
         async (id) => {
@@ -28,7 +30,7 @@ const ImageArea = (props) => {
                 return storage.ref("images").child(id).delete();
             }
         },
-        [props.images]
+        [images]
     );
 
     const uploadImage = useCallback(
@@ -62,9 +64,9 @@ const ImageArea = (props) => {
     return (
         <div>
             <div className="p-grid__list-images">
-                {props.images.length > 0 &&
-                    props.images.map((image) => (
-                        <ImagePreview delete={deleteImage} key={image.id} id={image.id} path={image.path} />
+                {images.length > 0 &&
+                    images.map((image) => (
+                        <ImagePreview delete={deleteImage} id={image.id} path={image.path} key={image.id} />
                     ))}
             </div>
             <div className="u-text-right">
@@ -72,12 +74,7 @@ const ImageArea = (props) => {
                 <IconButton className={classes.icon}>
                     <label>
                         <AddPhotoAlternateIcon />
-                        <input
-                            className="u-display-none"
-                            type="file"
-                            id="image"
-                            onChange={(event) => uploadImage(event)}
-                        />
+                        <input className="u-display-none" type="file" id="image" onChange={(e) => uploadImage(e)} />
                     </label>
                 </IconButton>
             </div>

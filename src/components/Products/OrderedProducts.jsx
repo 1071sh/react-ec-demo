@@ -38,7 +38,7 @@ const OrderedProducts = (props) => {
         <List>
             {products.map((product) => {
                 <>
-                    <ListItem key={product.id} className={classes.list}>
+                    <ListItem className={classes.list}>
                         <ListItemAvatar>
                             <img className={classes.image} src={product.images[0].path} alt={"Ordered Product"} />
                         </ListItemAvatar>

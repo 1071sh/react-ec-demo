@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { push } from "connected-react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import NoImage from "../../assets/img/src/no_image.png";
-import { push } from "connected-react-router";
 import { useDispatch } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: "100%",
     },
     price: {
-        color: theme.palette.secondary.main,
+        color: theme.palette.secondary.dark,
         fontSize: 16,
     },
 }));
@@ -43,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
 const ProductCard = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const images = props.images.length > 0 ? props.images : [NoImage];
+    const price = props.price.toLocaleString();
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -54,19 +56,16 @@ const ProductCard = (props) => {
         setAnchorEl(null);
     };
 
-    const images = props.images.length > 0 ? props.images : [{ path: NoImage }];
-    const price = props.price.toLocaleString();
-
     return (
         <Card className={classes.root}>
             <CardMedia
                 className={classes.media}
                 image={images[0].path}
+                onClick={() => dispatch(push("/product/" + props.id))}
                 title=""
-                onClick={() => dispatch(push("/product" + props.id))}
             />
             <CardContent className={classes.content}>
-                <div onClick={() => dispatch(push("/product" + props.id))}>
+                <div onClick={() => dispatch(push("/product/" + props.id))}>
                     <Typography color="textSecondary" component="p">
                         {props.name}
                     </Typography>
@@ -80,7 +79,7 @@ const ProductCard = (props) => {
                 <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
                     <MenuItem
                         onClick={() => {
-                            dispatch(push("products/edit/" + props.id));
+                            dispatch(push("/product/edit/" + props.id));
                             handleClose();
                         }}
                     >
