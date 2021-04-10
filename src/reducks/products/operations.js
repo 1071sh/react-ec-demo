@@ -1,12 +1,11 @@
 import { db, FirebaseTimestamp } from "../../firebase";
 import { push } from "connected-react-router";
-import { ProductList } from "../../templates";
 import { deleteProductAction, fetchProductsAction } from "./actions";
 
 const productsRef = db.collection("products");
 
-export const deleteProduct = (id, getState) => {
-    return async (dispatch) => {
+export const deleteProduct = (id) => {
+    return async (dispatch, getState) => {
         productsRef
             .doc(id)
             .delete()
@@ -28,16 +27,16 @@ export const fetchProducts = (gender, category) => {
             const productList = [];
             snapshots.forEach((snapshot) => {
                 const product = snapshot.data();
-                ProductList.push(product);
+                productList.push(product);
             });
             dispatch(fetchProductsAction(productList));
         });
     };
 };
 
-export const orderProduct = (productInCart, amount) => {
+export const orderProduct = (productsInCart, amount) => {
     return async (dispatch, getState) => {
-        const uid = getState().users.id;
+        const uid = getState().users.uid;
         const userRef = db.collection("users").doc(uid);
         const timestamp = FirebaseTimestamp.now();
 
@@ -46,7 +45,7 @@ export const orderProduct = (productInCart, amount) => {
 
         const batch = db.batch();
 
-        for (const product of productInCart) {
+        for (const product of productsInCart) {
             const snapshot = await productsRef.doc(product.productId).get();
             const sizes = snapshot.data().sizes;
 
@@ -57,7 +56,7 @@ export const orderProduct = (productInCart, amount) => {
                         return size;
                     }
                     return {
-                        size: size,
+                        size: size.size,
                         quantity: size.quantity - 1,
                     };
                 } else {
@@ -69,7 +68,8 @@ export const orderProduct = (productInCart, amount) => {
                 id: product.productId,
                 images: product.images,
                 name: product.name,
-                price: product.size,
+                price: product.price,
+                size: product.size,
             });
 
             batch.update(productsRef.doc(product.productId), { sizes: updatedSizes });
@@ -77,7 +77,7 @@ export const orderProduct = (productInCart, amount) => {
 
         if (soldOutProducts.length > 0) {
             const errorMessage = soldOutProducts.length > 1 ? soldOutProducts.join("と") : soldOutProducts[0];
-            alert("大変申し訳ありません." + errorMessage + "が在庫切れとなったため、注文処理を中断しました。");
+            alert("大変申し訳ありません。" + errorMessage + "が在庫切れとなったため注文処理を中断しました。");
             return false;
         } else {
             batch
@@ -100,14 +100,14 @@ export const orderProduct = (productInCart, amount) => {
                     dispatch(push("order/complete"));
                 })
                 .catch(() => {
-                    alert("注文処理に失敗しました。");
+                    alert("注文処理に失敗しました。通信環境をご確認のうえ、もう一度お試しください。");
                     return false;
                 });
         }
     };
 };
 
-export const saveProduct = (id, name, description, category, gender, price, images, sizes) => {
+export const saveProduct = (id, name, description, category, gender, price, sizes, images) => {
     return async (dispatch) => {
         const timestamp = FirebaseTimestamp.now();
 
@@ -119,14 +119,14 @@ export const saveProduct = (id, name, description, category, gender, price, imag
             name: name,
             price: parseInt(price, 10),
             sizes: sizes,
-            updated_ad: timestamp,
+            updated_at: timestamp,
         };
 
         if (id === "") {
             const ref = productsRef.doc();
+            data.created_at = timestamp;
             id = ref.id;
             data.id = id;
-            data.created_at = timestamp;
         }
 
         return productsRef

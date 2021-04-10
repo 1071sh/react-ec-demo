@@ -1,7 +1,7 @@
-export const DELETE_PRODUCTS = "DELETE_PRODUCTS";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
 export const deleteProductAction = (products) => {
     return {
-        type: "DELETE_PRODUCTS",
+        type: "DELETE_PRODUCT",
         payload: products,
     };
 };
@@ -11,5 +11,13 @@ export const fetchProductsAction = (products) => {
     return {
         type: "FETCH_PRODUCTS",
         payload: products,
+    };
+};
+
+export const INIT_PRODUCTS = "INIT_PRODUCTS";
+export const initProductsAction = () => {
+    return {
+        type: "INIT_PRODUCTS",
+        payload: null,
     };
 };
