@@ -1,33 +1,33 @@
 import React from "react";
 import { Route, Switch } from "react-router";
 import {
-    OrderHistory,
-    OrderConfirm,
     CartList,
-    ProductEdit,
+    OrderConfirm,
+    OrderHistory,
     ProductDetail,
+    ProductEdit,
     ProductList,
-    SignUp,
-    SignIn,
     Reset,
-} from "./templates";
+    SignIn,
+    SignUp,
+} from "./templates/index";
 import Auth from "./Auth";
 
 const Router = () => {
     return (
         <Switch>
-            <Route exact path={"/signup"} component={SignUp} />
-            <Route exact path={"/signin"} component={SignIn} />
-            <Route exact path={"/signin/reset"} component={Reset} />
+            <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/signin/reset" component={Reset} />
+            <Route exact path="/signup" component={SignUp} />
 
             <Auth>
-                <Route exact path={"(/)?"} component={ProductList} />
-                <Route path={"/product/:id"} component={ProductDetail} />
-                <Route path={"/product/edit(/:id)?"} component={ProductEdit} />
+                <Route exact path="(/)?" component={ProductList} />
+                <Route exact path="/product/:id" component={ProductDetail} />
+                <Route path="/product/edit(/:id)?" component={ProductEdit} />
 
-                <Route exact path={"/cart"} component={CartList} />
-                <Route exact path={"/order/confirm"} component={OrderConfirm} />
-                <Route exact path={"/order/history"} component={OrderHistory} />
+                <Route exact path="/cart" component={CartList} />
+                <Route exact path="/order/confirm" component={OrderConfirm} />
+                <Route exact path="/order/history" component={OrderHistory} />
             </Auth>
         </Switch>
     );
